@@ -1,0 +1,15 @@
+com\smartcart\ai\service\QueryParserService.class
+com\smartcart\ai\service\RecommendationService.class
+com\smartcart\ai\DataSeeder$1.class
+com\smartcart\ai\config\CorsConfig.class
+com\smartcart\ai\dto\QueryRequest.class
+com\smartcart\ai\DataSeeder.class
+com\smartcart\ai\dto\ParsedQuery.class
+com\smartcart\ai\dto\ParsedQuery$ParsedQueryBuilder.class
+com\smartcart\ai\dto\RecommendationResponse$RecommendationResponseBuilder.class
+com\smartcart\ai\controller\RecommendationController.class
+com\smartcart\ai\dto\RecommendationResponse.class
+com\smartcart\ai\entity\Product$ProductBuilder.class
+com\smartcart\ai\SmartcartBackendApplication.class
+com\smartcart\ai\entity\Product.class
+com\smartcart\ai\util\PriceFormatter.class
