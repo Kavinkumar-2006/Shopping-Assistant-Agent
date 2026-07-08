@@ -5,3 +5,7 @@ frontend/node_modules/
 dist/
 build/
 .vscode/
+backend/target/
+*.class
+*.jar
+*.war
