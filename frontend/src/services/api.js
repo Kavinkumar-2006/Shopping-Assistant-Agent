@@ -10,7 +10,8 @@ const api = axios.create({
 
 export const getRecommendations = async (message) => {
   try {
-    const response = await api.post('/chat/recommend', { message });
+    //const response = await api.post('/chat/recommend', { message });
+    const response = await api.post('/api/chat/recommend', { message });
     return response.data;
   } catch (error) {
     console.error('API request error:', error);
