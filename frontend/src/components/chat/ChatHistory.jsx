@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import MessageBubble from './MessageBubble';
 
-export default function ChatHistory({ messages, activeQuery }) {
+export default function ChatHistory({ messages, activeQuery, productActions }) {
   const containerRef = useRef(null);
 
   // Auto-scroll to bottom of conversation whenever history changes
@@ -17,14 +17,14 @@ export default function ChatHistory({ messages, activeQuery }) {
       className="flex-grow overflow-y-auto px-4 py-6 space-y-6 custom-scrollbar"
     >
       {messages.map((msg, index) => (
-        <MessageBubble key={index} message={msg} />
+        <MessageBubble key={`${msg.sender}-${index}`} message={msg} productActions={productActions} />
       ))}
       {activeQuery && (
         <MessageBubble 
           message={{
             sender: 'user',
             text: activeQuery
-          }} 
+          }} productActions={productActions}
         />
       )}
     </div>

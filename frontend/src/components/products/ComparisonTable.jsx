@@ -35,7 +35,7 @@ export default function ComparisonTable({ products }) {
                 >
                   {idx === 0 && (
                     <span className="absolute top-1.5 right-6 inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-brand-550 to-blue-600 px-2 py-0.5 text-[8px] font-black text-white uppercase tracking-wider shadow-sm">
-                      Best Pick
+                      {p.recommendationLabel || 'Best Pick'}
                     </span>
                   )}
                   <div className="flex flex-col">

@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,4 +65,56 @@ public class Product {
 
     /** Highlight bullet points shown on the product card */
     private List<String> highlights;
+
+    // ── Phase 4 Source Metadata & Multi-Provider Extensions ──────────────────
+
+    /** Source / Provider identification */
+    @Builder.Default
+    private ProductSource source = ProductSource.LOCAL;
+
+    /** Direct web page URL for this product on the retailer website */
+    private String productUrl;
+
+    /** Provider-native product identifier. Null for sources that do not expose one. */
+    private String sourceProductId;
+
+    /** Provider-native product page URL. Never synthesized for local catalog items. */
+    private String sourceProductUrl;
+
+    /** Base retailer / provider website URL */
+    private String sourceUrl;
+
+    /** Currency code (e.g. "INR", "USD") */
+    @Builder.Default
+    private String currency = "INR";
+
+    /** Stock availability status */
+    @Builder.Default
+    private Boolean availability = true;
+
+    /** Timestamp ISO string when the product was fetched from provider */
+    private String fetchedTime;
+
+    /** Merchant or store name (e.g., "ShopSmart Local Store", "Amazon Authorized") */
+    private String storeName;
+
+    /** Multi-merchant offers for this product */
+    @Builder.Default
+    private List<ProductOffer> offers = new ArrayList<>();
+
+    // ── Phase 4 Step 5: Intelligent Ranking Metadata ─────────────────────────
+
+    /** Recommendation label (Best Overall, Best Value, etc.) - computed during ranking */
+    private String recommendationLabel;
+
+    /** Overall relevance score - computed during ranking */
+    private Double overallScore;
+
+    /** Match percentage (0-100%) - computed during ranking */
+    private Double matchPercentage;
+
+    /** Value for money score - computed during ranking */
+    private Double valueScore;
 }
+
+

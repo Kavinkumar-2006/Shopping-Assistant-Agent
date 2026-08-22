@@ -1,35 +1,21 @@
 import React from 'react';
-import { Sparkles, ShoppingBag, Terminal } from 'lucide-react';
+import { Heart, Menu, Scale, Search, ShoppingBag, UserRound } from 'lucide-react';
 
-export default function Header() {
-  return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 bg-white/70 backdrop-blur-md">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-brand-550 to-blue-600 text-white shadow-md shadow-brand-550/10">
-              <ShoppingBag className="h-5.5 w-5.5" />
-            </div>
-            <div>
-              <span className="text-lg font-extrabold tracking-tight text-slate-900 flex items-center gap-1.5">
-                ShopSmart <span className="bg-gradient-to-r from-brand-550 to-blue-600 bg-clip-text text-transparent font-black flex items-center gap-0.5">AI</span>
-              </span>
-              <p className="text-[9px] font-semibold text-slate-400 uppercase tracking-widest leading-none mt-0.5">
-                AI Shopping Co-Pilot
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-1 text-xs font-semibold text-slate-400">
-              <Terminal className="h-3.5 w-3.5" /> Local Engine v1.0
-            </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-100 bg-emerald-50/60 px-3 py-1 text-xs font-semibold text-emerald-700 shadow-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              Agent Online
-            </span>
-          </div>
-        </div>
-      </div>
-    </header>
-  );
+const navItems = [
+  { id: 'home', label: 'Home' },
+  { id: 'explore', label: 'Explore' },
+  { id: 'compare', label: 'Compare' },
+  { id: 'wishlist', label: 'Wishlist' },
+  { id: 'history', label: 'History' },
+];
+
+export default function Header({ onMenu, onNavigate, activeView = 'home', wishlistCount = 0, compareCount = 0 }) {
+  return <header className="sticky top-0 z-50 w-full border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
+    <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-4 px-4 sm:px-6">
+      <button type="button" onClick={onMenu} className="rounded-xl p-2 text-slate-500 hover:bg-slate-100 lg:hidden" aria-label="Open shopping history"><Menu className="h-5 w-5" /></button>
+      <button type="button" onClick={() => onNavigate('home')} className="flex shrink-0 items-center gap-2.5 text-left" aria-label="ShopSmart AI home"><span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-brand-550 to-blue-600 text-white shadow-md shadow-brand-550/20"><ShoppingBag className="h-5 w-5" /></span><span className="hidden sm:block"><span className="block text-base font-black tracking-tight text-slate-900">ShopSmart <em className="not-italic text-brand-550">AI</em></span><span className="block text-[9px] font-bold uppercase tracking-[.16em] text-slate-400">Personal shopping assistant</span></span></button>
+      <nav className="ml-4 hidden items-center gap-1 xl:flex" aria-label="Main navigation">{navItems.map((item) => <button key={item.id} type="button" onClick={() => onNavigate(item.id)} className={`rounded-lg px-3 py-2 text-xs font-bold transition ${activeView === item.id ? 'bg-brand-50 text-brand-600' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-900'}`}>{item.label}</button>)}</nav>
+      <div className="ml-auto flex items-center gap-1.5"><button type="button" onClick={() => onNavigate('explore')} className="hidden items-center gap-2 rounded-xl border border-slate-200 px-3 py-2 text-xs font-bold text-slate-600 hover:border-brand-200 hover:text-brand-600 md:flex"><Search className="h-4 w-4" /> Ask ShopSmart</button><button type="button" onClick={() => onNavigate('compare')} className="relative rounded-xl p-2.5 text-slate-500 hover:bg-slate-100 hover:text-brand-550" aria-label="Compare selected products"><Scale className="h-4.5 w-4.5" />{compareCount > 0 && <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-550 px-1 text-[9px] font-bold text-white">{compareCount}</span>}</button><button type="button" onClick={() => onNavigate('wishlist')} className="relative rounded-xl p-2.5 text-slate-500 hover:bg-slate-100 hover:text-rose-500" aria-label="Open wishlist"><Heart className="h-4.5 w-4.5" />{wishlistCount > 0 && <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-rose-500 px-1 text-[9px] font-bold text-white">{wishlistCount}</span>}</button><button type="button" className="hidden rounded-xl border border-slate-200 p-2 text-slate-500 hover:bg-slate-100 sm:block" aria-label="Profile"><UserRound className="h-4.5 w-4.5" /></button></div>
+    </div>
+  </header>;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { AlertCircle, XCircle } from 'lucide-react';
 
-export default function ErrorBanner({ message, onDismiss }) {
+export default function ErrorBanner({ message, onDismiss, onRetry }) {
   if (!message) return null;
 
   return (
@@ -11,8 +11,9 @@ export default function ErrorBanner({ message, onDismiss }) {
           <AlertCircle className="h-5 w-5" />
         </div>
         <div className="flex-grow">
-          <h3 className="text-sm font-semibold text-red-800">Recommendation Failed</h3>
-          <p className="text-xs text-red-700 mt-1 leading-relaxed">{message}</p>
+          <h3 className="text-sm font-semibold text-red-800">Unable to reach ShopSmart AI</h3>
+          <p className="text-xs text-red-700 mt-1 leading-relaxed">Something went wrong while searching. Please try again.</p>
+          {onRetry && <button type="button" onClick={onRetry} className="mt-3 rounded-lg bg-red-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-red-700">Try again</button>}
         </div>
         {onDismiss && (
           <button 

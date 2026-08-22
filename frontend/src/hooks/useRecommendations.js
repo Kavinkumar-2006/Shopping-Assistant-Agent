@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getRecommendations } from '../services/api';
+import { getConversationResponse, resetConversationSession } from '../services/api';
 
 /**
  * Custom hook for managing the state of product recommendation searches.
@@ -9,6 +9,8 @@ export default function useRecommendations() {
   const [activeQuery, setActiveQuery] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sessionId] = useState(() => crypto.randomUUID?.() || `${Date.now()}-${Math.random()}`);
+  const [shoppingContext, setShoppingContext] = useState(null);
 
   /**
    * Triggers a recommendation request to the backend.
@@ -24,7 +26,7 @@ export default function useRecommendations() {
     setActiveQuery(rawQuery);
 
     try {
-      const data = await getRecommendations(rawQuery);
+      const data = await getConversationResponse(rawQuery, sessionId);
       
       setMessages((prev) => [
         ...prev,
@@ -40,8 +42,13 @@ export default function useRecommendations() {
           useCase: data.useCase,
           products: data.products || [],
           topProducts: data.topProducts || [],
+          appliedFilters: data.appliedFilters || [],
+          recommendationReasons: data.recommendationReasons || [],
+          followUpSuggestions: data.followUpSuggestions || [],
+          awaitingInput: data.awaitingInput,
         },
       ]);
+      setShoppingContext(data.sessionContext || null);
     } catch (err) {
       setError(err.message || 'Something went wrong while fetching recommendations.');
     } finally {
@@ -50,10 +57,12 @@ export default function useRecommendations() {
     }
   };
 
-  const clearConversation = () => {
+  const clearConversation = async () => {
     setMessages([]);
     setError(null);
     setActiveQuery(null);
+    setShoppingContext(null);
+    try { await resetConversationSession(sessionId); } catch { /* local reset still succeeds */ }
   };
 
   return {
@@ -63,6 +72,7 @@ export default function useRecommendations() {
     error,
     setError,
     fetchRecommendations,
-    clearConversation
+    clearConversation,
+    shoppingContext
   };
 }

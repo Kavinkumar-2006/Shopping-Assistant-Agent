@@ -5,7 +5,10 @@
 @layer base {
   html, body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    min-width: 320px;
   }
+
+  *:focus-visible { outline: 2px solid #0062ff; outline-offset: 2px; }
 }
 
 /* Custom premium styling */
@@ -30,4 +33,9 @@
 .bg-glass {
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(8px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-enter { animation: enter .35s ease-out both; }
+  @keyframes enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 }

@@ -2,6 +2,7 @@ package com.smartcart.ai.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.smartcart.ai.entity.Product;
+import com.smartcart.ai.entity.ShoppingIntent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * Outbound DTO returned by /api/chat/recommend.
- * Contains the AI-style summary and the ranked product results.
+ * Outbound DTO returned by recommendation and agent endpoints.
+ * Contains the AI-style summary, ranked product results, and metadata.
  */
 @Data
 @Builder
@@ -32,11 +33,11 @@ public class RecommendationResponse {
     /** Primary detected use-case (e.g., "coding", "gaming", "camera"). Null if not detected. */
     private String useCase;
 
-    /** Top 5 recommended products ranked by score */
+    /** Top recommended products ranked by score */
     private List<Product> products;
 
     /**
-     * Top 3 products for the comparison table.
+     * Top products for the comparison table.
      * Always a subset of products (max 3 items).
      */
     private List<Product> topProducts;
@@ -46,4 +47,48 @@ public class RecommendationResponse {
 
     /** Error message if the query could not be handled */
     private String error;
+
+    // ── V2 AI Shopping Agent Metadata ────────────────────────────────────────
+
+    /** Interpreted shopping intent of the user request */
+    private ShoppingIntent intent;
+
+    /** List of applied filter descriptions */
+    private List<String> appliedFilters;
+
+    /** Sorting parameter applied to the ranked results */
+    private String sortBy;
+
+    /** Natural-language reasons explaining the recommendations for top products */
+    private List<String> recommendationReasons;
+
+    /** Confidence score representing query-to-product relevance mapping (0.0 to 1.0) */
+    private Double confidence;
+
+    /** Optional conversational metadata; legacy clients can ignore it. */
+    private String sessionId;
+    private ShoppingSessionContext sessionContext;
+    private List<String> followUpSuggestions;
+    private String awaitingInput;
+
+    // ── Phase 4 Step 6: Discovery Metadata ───────────────────────────────────
+    // All fields below are additive (NON_NULL) — existing API clients are unaffected.
+
+    /** Number of providers queried for this request. */
+    private Integer providersQueried;
+
+    /** Number of providers that returned results without error. */
+    private Integer providersSucceeded;
+
+    /** Number of providers that failed (error, timeout, rate-limited). */
+    private Integer providersFailed;
+
+    /** Which data sources contributed products (e.g. ["LOCAL"], ["LOCAL", "FLIPKART"]). */
+    private List<String> dataSources;
+
+    /** Total product count collected across all providers before deduplication. */
+    private Integer totalProductsBeforeDeduplication;
+
+    /** Unique product count after deduplication. */
+    private Integer totalProductsAfterDeduplication;
 }

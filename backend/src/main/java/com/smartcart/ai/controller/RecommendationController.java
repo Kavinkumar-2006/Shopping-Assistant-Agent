@@ -35,13 +35,21 @@ public class RecommendationController {
      */
     @PostMapping("/chat/recommend")
     public ResponseEntity<RecommendationResponse> recommend(
-            @Valid @RequestBody QueryRequest request) {
+            @Valid @RequestBody QueryRequest request,
+            jakarta.servlet.http.HttpServletRequest httpServletRequest) {
 
         log.info("Received recommendation request: '{}'", request.getMessage());
 
-        RecommendationResponse response = recommendationService.recommend(request.getMessage());
+        String sessionId = request.getSessionId();
+        if ((sessionId == null || sessionId.isBlank()) && httpServletRequest != null) {
+            String headerId = httpServletRequest.getHeader("X-Session-ID");
+            if (headerId == null || headerId.isBlank()) headerId = httpServletRequest.getHeader("Session-ID");
+            if (headerId != null && !headerId.isBlank()) sessionId = headerId;
+            else if (httpServletRequest.getSession(false) != null) sessionId = httpServletRequest.getSession(false).getId();
+        }
 
-        // Return 404-style payload if no products matched (still HTTP 200 for graceful frontend handling)
+        RecommendationResponse response = recommendationService.recommend(request.getMessage(), sessionId);
+
         if (response.getProducts() == null || response.getProducts().isEmpty()) {
             log.info("No products matched query: '{}'", request.getMessage());
             return ResponseEntity.ok(response);

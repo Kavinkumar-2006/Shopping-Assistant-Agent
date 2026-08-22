@@ -9,3 +9,6 @@ backend/target/
 *.class
 *.jar
 *.war
+
+# Local server logs
+backend/*.log

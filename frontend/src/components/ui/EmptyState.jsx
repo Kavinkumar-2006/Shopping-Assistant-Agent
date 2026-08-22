@@ -11,11 +11,11 @@ export default function EmptyState({ onSelectSuggestion }) {
       </div>
 
       <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-        ShopSmart <span className="bg-gradient-to-r from-brand-550 to-blue-600 bg-clip-text text-transparent">AI Agent</span>
+        Your <span className="bg-gradient-to-r from-brand-550 to-blue-600 bg-clip-text text-transparent">AI Shopping Assistant</span>
       </h1>
       
       <p className="mt-4 text-sm sm:text-base text-slate-500 max-w-lg leading-relaxed font-medium">
-        Natural language shopping co-pilot. Enter what you are seeking and I will extract category filters, match budgets, and recommend products.
+        Tell me what you’re looking for. I’ll help you discover, compare and choose the right products for your needs and budget.
       </p>
 
       {/* Suggestion Card Grid */}
@@ -23,7 +23,7 @@ export default function EmptyState({ onSelectSuggestion }) {
         <div className="flex items-center gap-2 mb-4">
           <span className="h-0.5 w-6 bg-brand-500 rounded-full"></span>
           <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400">
-            Suggested Queries
+            Explore with ShopSmart AI
           </span>
         </div>
         <div className="grid gap-3.5 sm:grid-cols-2">
